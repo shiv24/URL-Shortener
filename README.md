@@ -43,27 +43,34 @@ The flask api will now be accessible at port 8080 of your local machine or http:
 
 The api allows three calls:
 
-  1. Setting a short url for a long url
+  1. Setting a short url for a long url. The following curl returns a short url. 
 
   ```bash
      curl --location 'http://127.0.0.1:8080/shorten' \
 --header 'Content-Type: application/json' \
 --data '  {
-    "long_url": "https://dev.bitly.com",
-    "title": "Bitly API Documentation",
-    "tags": [
-      "bitly",
-      "api"
-    ]
+    "long_url": "<YOUR-LONG-URL>",
+    "back_half": "<YOUR-BACK-HALF>"
   }'
 
 ```
+In the data section:
 
+```long_url```: The long url you want to shorten
+```back_half(optional)```: This is a custom short-key that the user can provide. If the key has not already been used, the end of the url after the domain will be this key. If this field is empty or not provided, then a unique key will automatically be created for the user. 
 
- 
+Returns: A short url. 
 
   3. Getting a long url from a short url
-  4. Getting the analytics of a short url (how many times it was accessed in the last 24 hours, week, and all time)
+
+```bash
+  curl --location 'http://127.0.0.1:8080/<YOUR-CUSTOM-KEY>'
+```
+Replace <YOUR-CUSTOM-KEY> with the short key you want to find. 
+
+Returns: the webpage that the long url for the short key links to. 
+     
+  5. Getting the analytics of a short url (how many times it was accessed in the last 24 hours, week, and all time)
 
 
 **Teardown**
