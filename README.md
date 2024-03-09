@@ -46,7 +46,7 @@ The api allows three calls:
 ***1. Setting a short url for a long url. The following curl returns a short url.***
 
   ```bash
-     curl --location 'http://127.0.0.1:8080/shorten' \
+curl --location 'http://127.0.0.1:8080/shorten' \
 --header 'Content-Type: application/json' \
 --data '  {
     "long_url": "<YOUR-LONG-URL>",
@@ -64,7 +64,7 @@ Returns: A short url.
 ***2. Getting a long url from a short url***
 
 ```bash
-  curl --location 'http://127.0.0.1:8080/<YOUR-CUSTOM-KEY>'
+curl --location 'http://127.0.0.1:8080/<YOUR-CUSTOM-KEY>'
 ```
 Replace <YOUR-CUSTOM-KEY> with the short key you want to find. 
 
