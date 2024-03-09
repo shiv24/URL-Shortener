@@ -45,7 +45,7 @@ The api allows three calls:
 
   1. Setting a short url for a long url
 
-     ```curl --location 'http://127.0.0.1:8080/shorten' \
+     curl --location 'http://127.0.0.1:8080/shorten' \
 --header 'Content-Type: application/json' \
 --data '  {
     "long_url": "https://dev.bitly.com",
@@ -54,7 +54,10 @@ The api allows three calls:
       "bitly",
       "api"
     ]
-  }'```
+  }'
+
+
+ 
 
   3. Getting a long url from a short url
   4. Getting the analytics of a short url (how many times it was accessed in the last 24 hours, week, and all time)
