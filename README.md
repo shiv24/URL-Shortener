@@ -82,7 +82,7 @@ Returns: The amount of times the short url was called in the last 24 hours, the 
 
 **Teardown**
 
-
+To stop the docker containers, you can run ```docker-compose down```, however the data stored in the mongo container is stored. If you want to completely tear down the services including getting rid of the data, run ```docker-compose down -v```
 
 
 
