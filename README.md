@@ -45,6 +45,7 @@ The api allows three calls:
 
   1. Setting a short url for a long url
 
+  ```bash
      curl --location 'http://127.0.0.1:8080/shorten' \
 --header 'Content-Type: application/json' \
 --data '  {
@@ -55,6 +56,8 @@ The api allows three calls:
       "api"
     ]
   }'
+
+```
 
 
  
