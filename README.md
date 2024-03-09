@@ -1,6 +1,6 @@
 # URL-Shortener
 
-## Problem Prompt provided
+## Exact problem statement provided
 
 The challenge is to build a HTTP-based RESTful API for managing Short URLs and redirecting clients similar to bit.ly or goo.gl. Be thoughtful that the system must eventually support millions of short urls. Please include a README with documentation on how to build, and run and test the system. Clearly state all assumptions and design decisions in the README. 
 
