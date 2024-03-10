@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  flask-backend:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_data_container:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    command:
+      [
+        "redis-server",
+        "--maxmemory",
+        "256mb",
+        "--maxmemory-policy",
+        "allkeys-lru",
+      ]
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data_container:
