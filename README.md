@@ -98,9 +98,18 @@ The characters used for the short key are base62(a-z, A-Z, 0-9) because this is 
 To avoid the guessability of short urls created before/after a given short url, two random base62 characters are added to the base62 trasnformation of the counter value within a service. The smallest size for a key can be five characters (10000 in base62 is 2Bi + two random base62 characters), and the largest size can be 8 (a base62 number of size 6 + two random base62 characters). 
 
 
-### General Architecture ###
-
 
 ### Making reads faster ###
+
+Because of the high number of reads(url redirections) that our service will encounter, it is important that reads are very efficient. Here are some of the methods implemented to speed up reads. 
+
+**Cache**: To speed up read requests, an in-memory cache was added. Redis was used for the cache. In terms of whether this cache would be local to each service, or global so that all services could access the cache; the decision to go with the global cache was made. The reason for this is because load-balancing could be random, round-robin, or traffic based (Where less busy servers will get more load). If the same short url is searched for, different services could end up handling these redirection requests which would result in extra trips to the db.
+
+**Analytics**: One of the requirements of this poc was to get analytics for each short ul access over the last 24hrs, last week, and all time. On each read, a call to mongo was done where the timestamp was added to the mongo document identified by the short key. I spin up a new thread to do this write to analytics due to simplicity and the fact that this thread would be concurrent with the url redirection so it doesn't really slow down the redirection request (even though resources are used with the thread creation). As this service scales to millions of requests, it would be important to create a seperate analytics service and put the analytics writes into a queing system like RabbitMQ or Kafka. With analytics, we can have eventual consistency, and this seperate analytics service could be a seperate process that reads messages from the queue and updates the analytics at set time periods. Also at millions of requests, threads will become a bottleneck because of the amount of resources(CPU, memory) that each thread takes up. 
+
+
+
+### General Architecture ###
+
 
 
