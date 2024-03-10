@@ -87,25 +87,22 @@ To stop the docker containers, you can run ```docker-compose down```, however th
 
 URL's will be permanent, and eventually the service will have millions of users. An extremely optimistic assumption for the service can be 50 million short url's being created per year. This results in approximately 2 url writes per second(rounding up). Reads which redirecting short url's to long urls are expected the be much greater than writes; 10x perhaps. This means that there will be 500 million writes per year which approximates to 20 writes per second(2*10). This service would need to be scalable, and would have multiple services which generate short urls and access relative long urls as the application scales.
 
+**Terms**: 
+Short Key : part of the short url which appears after 'http://{domain}/' where the {domain} is the domain of our service. When the user puts in http://{domain}/{short-key}, the user will be guided to the long url that is associated with the Short key.  
+
 ### Picking the Database and schema ### 
 When deciding between a relational or a NoSQL database to store the url mappings and analytics, I chose a NoSQL database. The core functionality is transforming a long url to a short url, and allowing redirection from the short url to the long url upon a request to the short url. URL mappings do not have any relationships between any other url mappings, and the database needs to be horizontally scalable and be able to perform reads quickly. For this reason a NoSQL database was picked, and Mongo was chosen in particular. Since the service is read heavy, Mongo was an ideal choice due to how it handles read operations. Unlike Cassanda, Riak, and DynamoDB, Mongo's single-leader setup allows for faster and more reliable reads. Writes also go through the leader.
 
 For Simplicty, all data was stored in a single Mongo database, however the data was seperated by collecitons. There were three collections used for this POC:
 
 1. url_mappings:
-  This colleciton stores url mappings from the short ul to the long url. Each in Mongo is in the form  of ```{_id: <SHORT-KEY>, long_url: <LONG-URL>, timestamp <TIMESTAMP>}```
-  _id: The id for the document is the Short key for the url. This is used to identify the document within the collection, and since the Short Key's are unique, they served as a valid _id. Mongo also automatically indexes documents   
-       based on the '_id' property.
-  long_url: This is the long url
-  timestamp: The unix timestamp at the time of the short url creation
+  This colleciton stores url mappings from the short ul to the long url. Each in Mongo is in the form  of ```{_id: <SHORT-KEY>, long_url: <LONG-URL>, timestamp <UNIX-TIMESTAMP>}```. Each mapping is a 'mongo document' within the 'url_mappings' collection. The _id field for the Mongo document is the Short key for the url. This is used to identify the document within the collection, and since the Short Key's are unique, they served as a valid _id. Mongo also automatically indexes documents based on the '_id' property. The 'long_url' field is the long url. 
 
-2. 
+2. counter
+  This collection holds a single counter which is used to ensure that each service which is spun up created unique keys. How this counter is used is explained in the 'Key uniqueness' section below. This is in the form ```{_id(Object_Id), name:<COUNTER-NAME>, value: <COUNTER-VALUE>}```. This is a single mongo document within it's own 'counter' collection. The important field is the 'value' field which actually stores the value of the counter.
 
-  
-
-
- Our service primarily focuses on reading data rather than writing it, making MongoDB an ideal choice due to its efficient handling of read operations. Unlike other NoSQL databases such as Cassandra, Riak, and DynamoDB, which require extra steps to ensure data accuracy during reads, MongoDB's single-leader setup allows for faster and more reliable read processes. This design not only ensures quick access to data—even in the event of a leader's failure—but also maintains system availability and consistency during high read demands. Although Cassandra might offer higher availability, MongoDB's swift leader election process minimizes any potential downtime, ensuring our service remains accessible without significant interruption, perfectly aligning with our need for a read-intensive, reliable database solution.
-
+3. analytics
+   This collection holds a mongo document in the form of {_id: <SHORT-URL>, access_times<ACCESS-TIMES>}. The _id field is the Short Key of the short url, 
 
 
 
