@@ -107,10 +107,15 @@ Because of the high number of reads(url redirections) that our service will enco
 
 **Cache**: To speed up read requests, an in-memory cache was added. Redis was used for the cache. In terms of whether this cache would be local to each service, or global so that all services could access the cache; the decision to go with the global cache was made. The reason for this is because load-balancing could be random, round-robin, or traffic based (Where less busy servers will get more load). If the same short url is searched for, different services could end up handling these redirection requests which would result in extra trips to the db.
 
-**Analytics**: One of the requirements of this poc was to get analytics for each short ul access over the last 24hrs, last week, and all time. On each read, a call to mongo was done where the timestamp was added to the mongo document identified by the short key. The request would complete when the mongo write completed which adds latency. I instead decided to spin up a new thread to do this write to analytics for simplicity and for the fact that this thread would be concurrent with the url redirection (resources are still used with the thread creation). As this service scales to millions of requests, it would be important to create a seperate analytics service and put the analytics writes into a queing system like RabbitMQ or Kafka. With analytics, we can have eventual consistency, and this analytics service could be a seperate process that reads messages from the queue and updates the database. This analytics service can be run at set time periods. Also at millions of requests, threads will become a bottleneck because of the amount of resources(CPU, memory) that each thread takes up. 
+**Analytics**: One of the requirements of this poc was to get analytics for each short ul access over the last 24hrs, last week, and all time. To save time on analytics read, I am using the fact that the array of access timestamps is sorted and doing a binary seach to find the analytics values. On each read, a call to mongo is done where the timestamp was added to the mongo document identified by the short key. The request would complete when the mongo write completed which adds latency. I instead decided to spin up a new thread to do this write to analytics for simplicity and for the fact that this thread would be concurrent with the url redirection (resources are still used with the thread creation). As this service scales to millions of requests, it would be important to create a seperate analytics service and put the analytics writes into a queing system like RabbitMQ or Kafka. With analytics, we can have eventual consistency, and this analytics service could be a seperate process that reads messages from the queue and updates the database. This analytics service can be run at set time periods.
 
 
 
+### Potential Bottlenecks ###
+**Analytics**: 
+** Threads: Currently each write to the analytics collection happend in a new thread. With millions of requests, threads will become a bottleneck because of the amount of resources(CPU, memory) that the threads will collectively take up. This is where a service like RabbitMQ and a seperate analytics processing service as described above will become important. 
+
+** Storing Aanlytics: The analytics for each 
 
 ### General Architecture ###
 
