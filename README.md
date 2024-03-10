@@ -74,13 +74,13 @@ For Simplicty, all data was stored in a single Mongo database, however the data 
 
 Note: A Mongo document is basically a record in MongoDB represented as a data structure composed of field and value pairs. 
 
-1. url_mappings:
+1. url_mappings:  
   This colleciton stores url mappings which map the short url to the long url. Each document represents a mapping in the form: ```{_id: <SHORT-KEY>, long_url: <LONG-URL>, timestamp <UNIX-TIMESTAMP>}```. This is a 'mongo document' within the 'url_mappings' collection. The _id field for the document is the Short key for the url. This is used to identify the document within the collection, and since the Short Key's are unique, they served as a valid '_id'. Mongo automatically indexes documents based on the '_id' property. The 'long_url' field is the long url. 
 
-2. counter
+2. counter:  
   This collection holds a single counter which is used to ensure that each service which is spun up created unique keys. How this counter is used is explained in the 'Key uniqueness' section below. This is in the form ```{_id(Object_Id), name:<COUNTER-NAME>, value: <COUNTER-VALUE>}```. This is a single mongo document within it's own 'counter' collection. The important field is the 'value' field which actually stores the value of the counter.
 
-3. analytics
+4. analytics
    This collection holds mongo documents in the form of ```{_id: <SHORT-URL>, access_times<ACCESS-TIMES>}```. The _id field is the Short Key of the short url, and the 'access_times' is an array of unix timestamps in ascending order that the short url(key) was accessed. Each time the short url is accessed, the latest timestamp is appended to the end of the access_times array.
 
 
