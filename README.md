@@ -89,38 +89,31 @@ URL's will be permanent, and eventually the service will have millions of users.
 
 **Terms**:  
 
-Short Key:part of the short url which appears after 'http://{domain}/' where the {domain} is the domain of our service. When the user puts in http://{domain}/{short-key}, the user will be guided to the long url that is associated with the Short key.  
+Short Key: part of the short url which appears after 'http://{domain}/' where the {domain} is the domain of our service. When the user puts in http://{domain}/{short-key}, the user will be guided to the long url that is associated with the Short key.  
 
 ### Picking the Database and schema ### 
 When deciding between a relational or a NoSQL database to store the url mappings and analytics, I chose a NoSQL database. The core functionality is transforming a long url to a short url, and allowing redirection from the short url to the long url upon a request to the short url. URL mappings do not have any relationships between any other url mappings, and the database needs to be horizontally scalable and be able to perform reads quickly. For this reason a NoSQL database was picked, and Mongo was chosen in particular. Since the service is read heavy, Mongo was an ideal choice due to how it handles read operations. Unlike Cassanda, Riak, and DynamoDB, Mongo's single-leader setup allows for faster and more reliable reads. Writes also go through the leader.
 
 For Simplicty, all data was stored in a single Mongo database, however the data was seperated by collecitons. There were three collections used for this POC:
 
+Note: A Mongo document is basically a record in MongoDB represented as a data structure composed of field and value pairs. 
+
 1. url_mappings:
-  This colleciton stores url mappings from the short ul to the long url. Each in Mongo is in the form  of ```{_id: <SHORT-KEY>, long_url: <LONG-URL>, timestamp <UNIX-TIMESTAMP>}```. Each mapping is a 'mongo document' within the 'url_mappings' collection. The _id field for the Mongo document is the Short key for the url. This is used to identify the document within the collection, and since the Short Key's are unique, they served as a valid _id. Mongo also automatically indexes documents based on the '_id' property. The 'long_url' field is the long url. 
+  This colleciton stores url mappings which map the short url to the long url. Each document represents a mapping in the form: ```{_id: <SHORT-KEY>, long_url: <LONG-URL>, timestamp <UNIX-TIMESTAMP>}```. This is a 'mongo document' within the 'url_mappings' collection. The _id field for the document is the Short key for the url. This is used to identify the document within the collection, and since the Short Key's are unique, they served as a valid '_id'. Mongo automatically indexes documents based on the '_id' property. The 'long_url' field is the long url. 
 
 2. counter
   This collection holds a single counter which is used to ensure that each service which is spun up created unique keys. How this counter is used is explained in the 'Key uniqueness' section below. This is in the form ```{_id(Object_Id), name:<COUNTER-NAME>, value: <COUNTER-VALUE>}```. This is a single mongo document within it's own 'counter' collection. The important field is the 'value' field which actually stores the value of the counter.
 
 3. analytics
-   This collection holds a mongo document in the form of {_id: <SHORT-URL>, access_times<ACCESS-TIMES>}. The _id field is the Short Key of the short url, 
-
-
-
-
-
+   This collection holds mongo documents in the form of ```{_id: <SHORT-URL>, access_times<ACCESS-TIMES>}```. The _id field is the Short Key of the short url, and the 'access_times' is an array of unix timestamps in ascending order that the short url(key) was accessed. Each time the short url is accessed, the latest timestamp is appended to the end of the access_times array.
 
 
 ### Key uniqueness and Non-guessability ###
 
 
-
-### Making reads faster ###
-
-
 ### General Architecture ###
 
 
-
+### Making reads faster ###
 
 
