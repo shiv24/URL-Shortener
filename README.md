@@ -113,7 +113,7 @@ Because of the high number of reads(url redirections) that our service will enco
 
 **Analytics**: One of the requirements of this poc was to get analytics for each short ul access over the last 24hrs, last week, and all time. To save time on the analytics read, I am using the fact that the array of access timestamps is sorted and doing a binary seach to find the analytics values. On each read, a call to mongo is done where the timestamp was added to the mongo document identified by the short key. The request would complete when the mongo write completed which adds latency. I instead decided to spin up a new thread to do this write to analytics for simplicity and for the fact that this thread would be concurrent with the url redirection (resources are still used with the thread creation). As this service scales to millions of requests, it would be important to create a seperate analytics service and put the analytics writes into a queing system like RabbitMQ or Kafka. With analytics, we can have eventual consistency, and this analytics service could be a seperate process that reads messages from the queue and updates the database. This analytics service can be run at set time periods.
 
-**Load Balancing**: 
+**Load Balancing**: Nginx was used as the load balancer for the flask services due to Nginx's easy setup. The load-balancer prioritizes load to servers which are receiving less load. This helps prevent busy servers from becoming the bottlneck for requests. 
 
 
 
