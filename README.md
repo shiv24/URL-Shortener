@@ -16,7 +16,7 @@ Go into the ```backend``` folder of the project and run
 ```bash 
 docker-compose up -d --build --scale flask-backend=<NUMBER-OF-SERVICES>
 ```
-Replace <NUMBER-OF-SERVICES> with a value greater than 1. This will specify how many flask servers will be run. 
+Replace ```<NUMBER-OF-SERVICES>``` with a value greater than 1. This will specify how many flask servers will be run. 
 
 The flask api will now be accessible at port 80 of your local machine or http://127.0.0.1:80 
 
