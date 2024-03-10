@@ -37,10 +37,8 @@ def generate_two_random_chars(length=2):
 def int_to_base62(num, length=6):
     characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     base = 62
-    if num == 0:
-        return characters[0] * length
     result = []
     while num:
-        num, rem = divmod(num, base)
-        result.append(characters[rem])
+        num, remainder = divmod(num, base)
+        result.append(characters[remainder])
     return "".join(reversed(result))
