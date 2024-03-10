@@ -86,6 +86,9 @@ Note: A Mongo document is basically a record in MongoDB represented as a data st
 
 ### Key uniqueness and Non-guessability ###
 
+The characters used for the short key are base62(a-z, A-Z, 0-9) because this is a large character set to choose from and the keys formed using these characters will not have issues with a browser. The reason I avoided base 64 was because the '+' and the '/' characters which would need to be encoded as ‘%2B’ and ‘%2F’ respectively. There is no big benefit of using base64 over base62 for our case. There were multiple ways that the inique keys could ahve been created. Some of the ways I was looking at were:
+* Process 1
+* Process 2
 
 ### General Architecture ###
 
