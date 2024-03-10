@@ -80,7 +80,7 @@ Note: A Mongo document is basically a record in MongoDB represented as a data st
 2. counter:  
   This collection holds a single counter which is used to ensure that each service which is spun up created unique keys. How this counter is used is explained in the 'Key uniqueness' section below. This is in the form ```{_id(Object_Id), name:<COUNTER-NAME>, value: <COUNTER-VALUE>}```. This is a single mongo document within it's own 'counter' collection. The important field is the 'value' field which actually stores the value of the counter.
 
-4. analytics
+4. analytics:
    This collection holds mongo documents in the form of ```{_id: <SHORT-URL>, access_times<ACCESS-TIMES>}```. The _id field is the Short Key of the short url, and the 'access_times' is an array of unix timestamps in ascending order that the short url(key) was accessed. Each time the short url is accessed, the latest timestamp is appended to the end of the access_times array.
 
 
