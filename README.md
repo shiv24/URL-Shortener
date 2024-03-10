@@ -2,7 +2,7 @@
 
 ## Overview
 
-The following project is a poc that allows anyone to take a long url, and shorten the url similar to [bit.ly](https://bitly.com/). This project follows a design and architecture aiming to minimize problems as the service scales to Millions of users. 
+This project serves as a proof of concept (POC) that enables users to transform lengthy URLs into short URL's similar to [bit.ly](https://bitly.com/). This project follows a design and architecture aiming to minimize problems as the service scales to millions of users. 
 
 ## How to test
 
