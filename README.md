@@ -85,11 +85,14 @@ To stop the docker containers, you can run ```docker-compose down```, however th
 
 ## Assumptions, Technical Decisions & Analysis 
 
+URL's will be permanent, and eventually the service will have millions of users. An extremely optimistic assumption for the service can be 50 million short url's being created per year. This results in approximately 2 url writes per second(rounding up). Reads which redirecting short url's to long urls are expected the be much greater than writes; 10x perhaps. This means that there will be 500 million writes per year which approximates to 20 writes per second(2*10). This service would need to be scalable, and would have multiple services which generate short urls and access relative long urls as the application scales.
 
-In the problem statement it was mentioned that url's would be permanent, and that the service will have eventually have millions of users. An extremely optimistic assumption for the service can be 50 million short url's being created per year. This results in approximately 2 url writes per second(rounding up). Reads which redirecting short url's to long urls are expected the be much greater than writes; 10x perhaps. This means that there will be 500 million writes per year which approximates to 20 writes per second(2*10). 
+### Picking the Database ### 
+When deciding between a relational or a NoSQL database to store the url mappings and analytics, I chose a NoSQL database. The core functionality is transforming a long url to a short url, and allowing redirection from the short url to the long url upon a request to the short url. URL mappings do not have any relationships between any other url mappings, and the database needs to be horizontally scalable and be able to perform reads quickly. For this reason a NoSQL database was picked, and Mongo was chosen in particular. 
 
 
-### Obtaining Unique Keys ###
+### Key uniqueness and Non-guessability ###
+
 
 
 ### Making reads faster ###
