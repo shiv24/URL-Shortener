@@ -14,14 +14,14 @@ To setup the service, please do the following:
 
 Go into the ```backend``` folder of the project and run ```docker-compose up --build```.
 
-The flask api will now be accessible at port 8080 of your local machine or http://127.0.0.1:8080 
+The flask api will now be accessible at port 80 of your local machine or http://127.0.0.1:80 
 
 The api allows three calls:
 
 ***1. Setting a short url for a long url. The following curl returns a short url.***
 
   ```bash
-curl --location 'http://127.0.0.1:8080/shorten' \
+curl --location 'http://127.0.0.1:80/shorten' \
 --header 'Content-Type: application/json' \
 --data '  {
     "long_url": "<YOUR-LONG-URL>",
@@ -39,7 +39,7 @@ Returns: A short url.
 ***2. Getting a long url from a short url***
 
 ```bash
-curl --location 'http://127.0.0.1:8080/<YOUR-CUSTOM-KEY>'
+curl --location 'http://127.0.0.1:80/<YOUR-CUSTOM-KEY>'
 ```
 Replace <YOUR-CUSTOM-KEY> with the short key you want to find. 
 
@@ -48,7 +48,7 @@ Returns: the webpage that the long url for the short key links to.
 ***3. Getting the analytics of a short url (how many times it was accessed in the last 24 hours, week, and all time)*** 
 
 ```bash
-curl --location 'http://127.0.0.1:8080/analytics/<YOUR-SHORT-KEY>'
+curl --location 'http://127.0.0.1:80/analytics/<YOUR-SHORT-KEY>'
 ```
 Replace <YOUR-SHORT-KEY> with the short key. If the short key doesn't exist, all analytics values returned are zero. 
 
