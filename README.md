@@ -95,7 +95,7 @@ The characters used for the short key are base62(a-z, A-Z, 0-9) because this is 
 
 **Chosen Solution:** There is a counter in the data store that each service reads and increments by a set value (10000 in our case) per database transaction. Upon successfully committing the transaction, an service can use the range of counter values it reserved (from the initial read value up to the read value plus the increment minus one) to generate short URLs. This ensures that each service has a unique set of counter values to use for URL generation, effectively preventing conflicts between servers. However, there's a risk of losing up to 10000 short URLs if a service crashes after reserving its range but before using all the values. With that being said, this method is still viable due to the vast number of short URLs (up to 58 billion) that can be generated. 
 
-The way the code is written the smallest counter value can be 10000. 
+To avoid the guessability of short urls created before/after a given short url, two random base62 characters are added to the base62 trasnformation of the counter value within a service. The smallest size for a key can be five characters (10000 in base62 is 2Bi + two random base62 characters), and the largest size can be 8 (a base62 number of size 6 + two random base62 characters)
 
 
 ### General Architecture ###
