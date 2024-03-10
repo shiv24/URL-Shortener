@@ -93,7 +93,7 @@ The characters used for the short key are base62(a-z, A-Z, 0-9) because this is 
 * Generate a random key of size n with base62 characters. This can cause collisions on write, and there is no direct way to reduce the probability of impacts. Additionally as the service gets many more short url creations, the probabilty of collisions increases. This puts additional burden on the system to find a short key which is not present in the database. This solution could work well with a seperate Key Generation service and database which stores used and unused(unique) keys ahead of time allowing our service to simply pick an unused key on short url creation.
 
 
-Chosen Solution: 
+<u>Chosen Solution:<u> The 
 
 
 ### General Architecture ###
