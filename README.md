@@ -27,7 +27,6 @@ Shortcuts
 2. No html, web UI is required 
 3. Transport/Serialization format is your choice, but the solution should be testable via curl
 
-## Assumptions
 
 ## How to test
 
@@ -84,6 +83,21 @@ Returns: The amount of times the short url was called in the last 24 hours, the 
 
 To stop the docker containers, you can run ```docker-compose down```, however the data stored in the local mongo instance will still persist. If you want to completely tear down the services and get rid of the data, run ```docker-compose down -v```
 
+## Assumptions, Technical Decisions & Analysis 
 
 
-##Technical decisions
+In the problem statement it was mentioned that url's would be permanent, and that the service will have eventually have millions of users. An extremely optimistic assumption for the service can be 50 million short url's being created per year. This results in approximately 2 url writes per second(rounding up). Reads which redirecting short url's to long urls are expected the be much greater than writes; 10x perhaps. This means that there will be 500 million writes per year which approximates to 20 writes per second(2*10). 
+
+
+### Obtaining Unique Keys ###
+
+
+### Making reads faster ###
+
+
+### General Architecture ###
+
+
+
+
+
