@@ -86,9 +86,15 @@ Note: A Mongo document is basically a record in MongoDB represented as a data st
 
 ### Key uniqueness and Non-guessability ###
 
-The characters used for the short key are base62(a-z, A-Z, 0-9) because this is a large character set to choose from and the keys formed using these characters will not have issues with a browser. The reason I avoided base 64 was because the '+' and the '/' characters which would need to be encoded as ‘%2B’ and ‘%2F’ respectively. There is no big benefit of using base64 over base62 for our case. There were multiple ways that the inique keys could ahve been created. Some of the ways I was looking at were:
-* Process 1
-* Process 2
+Short Key size: The short key size for this implementation will be in the range of 5-8 characters long. 8 characters will be teh largest short key size our service will allow because the short url should still be small. The reason for these ranges is explained below. 
+
+The characters used for the short key are base62(a-z, A-Z, 0-9) because this is a large character set to choose from and the keys formed using these characters will not have issues with a browser. The reason I avoided base 64 was because the '+' and the '/' characters which would need to be encoded as ‘%2B’ and ‘%2F’ respectively. There is no big benefit of using base64 over base62 for our case. There were multiple ways that the inique keys could ahve been created. Some of the solutions I was looking at were:
+* Get a MD5 of the long url and take the first/last n characters to be used as the short key. This becomes a problem when different users input the same long url as they will get the same short key. 
+* Generate a random key of size n with base62 characters. This can cause collisions on write, and there is no direct way to reduce the probability of impacts. Also as our service gets many more short url creations the probabilty of collisions increases which then puts additional burden on our system to find a short key which is not present in the database. This solution could work well with a seperate Key Generation service and database which stores used and unused keys ahead of time allowing our service to simply pick an unused key.
+
+
+Chosen Solution: 
+
 
 ### General Architecture ###
 
