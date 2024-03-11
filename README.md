@@ -55,7 +55,8 @@ Returns: A short url.
   ```bash
   curl --location 'http://127.0.0.1:80/analytics/<YOUR-SHORT-KEY>'
   ```
-  Replace ```<YOUR-SHORT-KEY>``` with the short key. If the short key doesn't exist, all analytics values returned are zero. 
+  Replace ```<YOUR-SHORT-KEY>``` with the short key. If the short key doesn't exist, all analytics values returned are zero.  
+  
   Returns: The amount of times the short url was called in the last 24 hours, the last week, and all time. 
 
 
