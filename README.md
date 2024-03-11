@@ -73,7 +73,7 @@ To stop the docker containers, you can run ```docker-compose down```, however th
 
 ## Assumptions, Technical Decisions & Analysis 
 
-URL's will be permanent, and eventually the service will have millions of users. An extremely optimistic assumption for the service can be 50 million short url's being created per year. This results in approximately 2 url writes per second(rounding up). Reads which redirecting short url's to long urls are expected the be much greater than writes; 10x perhaps. This means that there will be 500 million writes per year which approximates to 20 writes per second(2*10). This service would need to be scalable, and would have multiple services which generate short urls and access relative long urls as the application scales.
+URL's will be permanent, and eventually the service will have millions of users. An extremely optimistic assumption for the service can be 50 million short url's being created per year. This results in approximately 2 url writes per second(rounding up). Reads which involve redirecting short url's to long urls are expected the be much greater than writes; 10x perhaps. This means that there will be 500 million writes per year which approximates to 20 writes per second(2*10). This service would need to be scalable, and would have multiple services which generate short urls and access relative long urls as the application scales.
 
 **Terms**:  
 
