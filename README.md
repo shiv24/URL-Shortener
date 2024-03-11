@@ -98,7 +98,7 @@ Note: A Mongo document is basically a record in MongoDB represented as a data st
 
 ### Key uniqueness and Non-guessability ###
 
-Short Key size: The short key size for this implementation will be in the range of 5-8 characters long. 8 characters will be teh largest short key size our service will allow because the short url should still be small. The reason for these ranges is explained below. 
+Short Key size: The short key size for this implementation will be in the range of 5-8 characters long. 8 characters will be the largest short key size our service will allow because the short url should still be small. The reason for these ranges is explained below. 
 
 The characters used for the short key are base62(a-z, A-Z, 0-9) because this is a large character set to choose from and the keys formed using these characters will not have issues with a browser. The reason I avoided base 64 was because the '+' and the '/' characters which would need to be encoded as ‘%2B’ and ‘%2F’ respectively. There is no big benefit of using base64 over base62 for our case. There were multiple ways that the inique keys could ahve been created. Some of the solutions I was looking at were:
 * Get a MD5 of the long url which produces a 128-bit hash value. This value would be converted to base62 and the first/last n characters would be used as the short key. This becomes a problem when different users input the same long url as they will get the same short key. 
