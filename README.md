@@ -35,8 +35,8 @@ curl --location 'http://127.0.0.1:80/shorten' \
 ```
 In the data section:
 
-```long_url```: The long url you want to shorten. Put your long url in <YOUR-LONG-URL>
-```back_half(optional)```: This is a custom short key that the user can provide. If the key has not already been used, the end of the url after the domain will be this key. If this field is empty or not provided, then a unique key     will automatically be created for the user. Put the short key in <YOUR-BACK-HALF>  
+```long_url```: The long url you want to shorten. 
+```back_half(optional)```: This is a custom short key that the user can provide. If the key has not already been used, the end of the url after the domain will be this key. If this field is empty or not provided, then a unique key     will automatically be created for the user.
 
 Returns: A short url. 
 
