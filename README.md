@@ -69,7 +69,7 @@ pytest
 
 **Teardown**
 
-To stop the docker containers, you can run ```docker-compose down```, however the data stored in the local mongo instance will still persist. If you want to completely tear down the services and get rid of the data, run ```docker-compose down -v```
+To stop the docker containers, you can run ```docker-compose down```, however the data stored in mongo will persist. If you want to completely tear down the services and get rid of the data, run ```docker-compose down -v```
 
 ## Assumptions, Technical Decisions & Analysis 
 
