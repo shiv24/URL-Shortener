@@ -59,7 +59,7 @@ Returns: A short url.
   Returns: The amount of times the short url was called in the last 24 hours, the last week, and all time. 
 
 
-To run unit tests the commands in order, execute 
+To run unit tests, execute the following commands in order from directory of this project
 ```bash
 source bin/activate
 pip3 install -r requirements.txt
