@@ -130,7 +130,5 @@ Because of the high number of reads(url redirections) that our service will enco
 
 * Storage of Analytics: Each short url redirection timestamp is appended to an array within a mongo document identified by the short key. In Mongo the max size of a document is 16MB so for more frequently accessed url's this document could fill up fast. There could be an additional services which is responsible for compressing these arrays (where timestamps older than a week are collapsed but there is still a count of all the collapsed timestamps.), but this can become very inefficient if done constantly with MongoDB and can slow down the database. I personally think in this scenario, the best option would be to use a time-series database such as InfluxDB or Splunk because they have their own efficient compression techniques, and manage range queries efficiently.  
 
-### General Architecture ###
-
 
 
