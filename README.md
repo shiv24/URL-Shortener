@@ -46,7 +46,7 @@ Returns: A short url.
   ```bash
   curl --location 'http://127.0.0.1:80/<YOUR-CUSTOM-KEY>'
   ```
-  Replace <YOUR-CUSTOM-KEY> with the short key you want to find. 
+  Replace ```<YOUR-CUSTOM-KEY>``` with the short key you want to find. 
   
   Returns: the webpage that the long url for the short key links to. 
      
